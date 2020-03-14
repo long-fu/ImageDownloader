@@ -1,13 +1,14 @@
 //
-//  ImageDownloaderTests.swift
-//  ImageDownloaderTests
+//  ViewController.swift
+//  Example
 //
 //  Created by haoshuai on 2020/3/14.
 //  Copyright © 2020 haoshuai. All rights reserved.
 //
 
-import XCTest
-@testable import ImageDownloader
+import UIKit
+import ImageDownloader
+
 
 struct ImageLoader {
     static let sampleImageURLs: [URL] = {
@@ -31,29 +32,28 @@ struct ImageLoader {
     }()
 }
 
-class ImageDownloaderTests: XCTestCase {
+class ViewController: UIViewController {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        let urls =  ImageLoader.sampleImageURLs
+    
+    @IBOutlet weak var button: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        ImageLoader
+        let urls = ImageLoader.sampleImageURLs // + ImageLoader.highResolutionImageURLs
+        ImageDownloader.default.downloadImage(urls: urls)
+        
+        
+        button.addTarget(self, action: #selector(self.buttonAction(_:)), for: UIControl.Event.touchUpInside)
+        // Do any additional setup after loading the view.
+    }
+
+    
+    @objc
+    func buttonAction(_ sender: UIButton) {
+        let urls = ImageLoader.sampleImageURLs // + ImageLoader.highResolutionImageURLs
         ImageDownloader.default.downloadImage(urls: urls)
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-            debugPrint("完成")
-        }
-    }
-
 }
+
