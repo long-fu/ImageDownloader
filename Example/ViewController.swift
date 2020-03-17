@@ -35,25 +35,71 @@ struct ImageLoader {
 class ViewController: UIViewController {
 
     
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var reloadButton: UIButton!
+    
+    var dataSource: [URL] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        ImageLoader
+        
         let urls = ImageLoader.sampleImageURLs // + ImageLoader.highResolutionImageURLs
-        ImageDownloader.default.downloadImage(urls: urls)
+        self.dataSource = urls
         
+        reloadButton.addTarget(self, action: #selector(self.buttonAction(_:)), for: UIControl.Event.touchUpInside)
         
-        button.addTarget(self, action: #selector(self.buttonAction(_:)), for: UIControl.Event.touchUpInside)
-        // Do any additional setup after loading the view.
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.minimumInteritemSpacing = 2
+        layout.minimumLineSpacing = 2
+        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCollectionViewCell")
+        collectionView.setCollectionViewLayout(layout, animated: false, completion: nil)
+        
     }
-
+    
     
     @objc
-    func buttonAction(_ sender: UIButton) {
-        let urls = ImageLoader.sampleImageURLs // + ImageLoader.highResolutionImageURLs
-        ImageDownloader.default.downloadImage(urls: urls)
+    func buttonAction(_ sender: Any?) {
+        
     }
-
+    
+    
 }
+
+extension ViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as? ImageCollectionViewCell else {
+            fatalError()
+        }
+        debugPrint("加载任务",indexPath)
+        let url = dataSource[indexPath.item]
+        ImageDownloader.default.downloadImage(url: url) { (result) in
+            switch result {
+            case let .success(image):
+                cell.image = image
+                cell.setNeedsDisplay()
+            case .failure(_):
+                fatalError()
+            }
+        }
+        return cell
+    }
+    
+    
+}
+
+extension ViewController: UICollectionViewDelegate {
+    
+}
+
 

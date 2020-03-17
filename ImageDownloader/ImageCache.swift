@@ -16,48 +16,68 @@ public class ImageCache {
     
     private let name: String
     
-    // web url:file url - 说是线程安全
-    private let cache:NSCache = NSCache<NSString,NSString>()
+    // web url:file url - 说是线程安全 APP重启就会回收
+    private let cache:NSCache = NSCache<NSString,UIImage>()
     
     private let lock = NSLock()
     
-    private func addCache(request url: URL,file path: URL) {
-        lock.lock()
-        defer {
-            lock.unlock()
-        }
-        cache.setObject(path.path as NSString, forKey: url.absoluteString as NSString)
+//    private func addCache(request url: URL,file path: URL) {
+////        lock.lock()
+////        defer {
+////            lock.unlock()
+////        }
+////        cache.setObject(path.path as NSString, forKey: url.absoluteString as NSString)
+//
+//    }
+    
+    func addCache(request url: URL, image: UIImage) {
+//        lock.lock()
+//        defer {
+//            lock.unlock()
+//        }
+        cache.setObject(image, forKey: url.absoluteString as NSString)
     }
     
-    
+    // 磁盘已经有数据
     public func cache(request url: URL) -> Bool {
         let md5_str = url.absoluteString.md5
         let path = self.cacheDirectory.appendingPathComponent("\(md5_str).tmp", isDirectory: false)
         let result = FileManager.default.fileExists(atPath: path.path)
-        if result { debugPrint("存在数据", path) }
         return result
     }
     
-    public func cache(request url: URL) -> URL? {
-        guard let paht =  cache.object(forKey: url.absoluteString as NSString) else {
+    // 需要和 func cache(request url: URL) -> Bool 一起使用
+    public func cache(request url: URL) -> UIImage? {
+        if let image =  cache.object(forKey: url.absoluteString as NSString) {
+            return image
+        }
+        let md5_str = url.absoluteString.md5
+        let path = self.cacheDirectory.appendingPathComponent("\(md5_str).tmp", isDirectory: false)
+        guard let image = UIImage(contentsOfFile: path.path) else {
+            // 和判断一起应该是存在的
             return nil
         }
-        return URL(fileURLWithPath: paht as String)
+        self.addCache(request: url, image: image)
+        return image
     }
     
     public func removeCache(request url: URL) {
-        lock.lock()
-        defer {
-            lock.unlock()
-        }
+//        lock.lock()
+//        defer {
+//            lock.unlock()
+//        }
         cache.removeObject(forKey: url.absoluteString as NSString)
     }
-    
-    
+    @objc
+    public func removeAllCache() {
+//        lock.lock()
+//        defer {
+//            lock.unlock()
+//        }
+        cache.removeAllObjects()
+    }
     
     public static let `default` = ImageCache(name: "default")
-    
-//    private let downloadCache = NSCache<NSString,NSString>()
     
     public var totalCostLimit: Int {
         didSet {
@@ -102,10 +122,16 @@ public class ImageCache {
         cache.totalCostLimit = totalCostLimit
         cache.countLimit = countLimit
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.removeAllCache), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
     }
     
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
+    }
     
+    // 单纯的存储文件
     func storage(request url: URL,path file: URL) throws ->  URL {
         
         let data = try Data(contentsOf: file)
@@ -116,8 +142,7 @@ public class ImageCache {
         
         try data.write(to: path)
         
-        self.addCache(request: url, file: path)
-        
+
         return path
     }
     

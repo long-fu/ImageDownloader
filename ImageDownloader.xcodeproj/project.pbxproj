@@ -17,6 +17,7 @@
 		2E1445FC241CD6B400482C55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E1445FA241CD6B400482C55 /* LaunchScreen.storyboard */; };
 		2E144607241CD6B400482C55 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E144606241CD6B400482C55 /* ExampleTests.swift */; };
 		2E144612241CD6B400482C55 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E144611241CD6B400482C55 /* ExampleUITests.swift */; };
+		2E1446632421501B00482C55 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1446622421501B00482C55 /* ImageCollectionViewCell.swift */; };
 		2E39615E241C0E63002F38E4 /* ImageDownloader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E396154241C0E62002F38E4 /* ImageDownloader.framework */; };
 		2E396163241C0E63002F38E4 /* ImageDownloaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E396162241C0E63002F38E4 /* ImageDownloaderTests.swift */; };
 		2E396165241C0E63002F38E4 /* ImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E396157241C0E62002F38E4 /* ImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,6 +66,7 @@
 		2E14460D241CD6B400482C55 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E144611241CD6B400482C55 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		2E144613241CD6B400482C55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E1446622421501B00482C55 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		2E396154241C0E62002F38E4 /* ImageDownloader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ImageDownloader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E396157241C0E62002F38E4 /* ImageDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		2E396158241C0E62002F38E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				2E1445EF241CD6B100482C55 /* AppDelegate.swift */,
 				2E1445F1241CD6B100482C55 /* SceneDelegate.swift */,
 				2E1445F3241CD6B100482C55 /* ViewController.swift */,
+				2E1446622421501B00482C55 /* ImageCollectionViewCell.swift */,
 				2E1445F5241CD6B100482C55 /* Main.storyboard */,
 				2E1445F8241CD6B400482C55 /* Assets.xcassets */,
 				2E1445FA241CD6B400482C55 /* LaunchScreen.storyboard */,
@@ -395,6 +398,7 @@
 			files = (
 				2E1445F4241CD6B100482C55 /* ViewController.swift in Sources */,
 				2E1445F0241CD6B100482C55 /* AppDelegate.swift in Sources */,
+				2E1446632421501B00482C55 /* ImageCollectionViewCell.swift in Sources */,
 				2E1445F2241CD6B100482C55 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
