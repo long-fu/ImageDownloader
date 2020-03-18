@@ -41,19 +41,16 @@ class AnimationCollectionViewLayout: UICollectionViewFlowLayout {
 //    }
     
     override func layoutAttributesForInteractivelyMovingItem(at indexPath: IndexPath, withTargetPosition position: CGPoint) -> UICollectionViewLayoutAttributes {
-        let attr1 = super.layoutAttributesForInteractivelyMovingItem(at: indexPath, withTargetPosition: position)
-        guard let attr = self.layoutAttributesForItem(at: indexPath) else {
-            fatalError()
-        }
-        attr.transform =  CGAffineTransform.init(scaleX: 0.2, y: 0.2).rotated(by: .pi)
-
-        attr.center = CGPoint(x: self.collectionView!.bounds.midX, y: self.collectionView!.bounds.midY)
-        debugPrint("动画部分")
-        return attr;
+        let attributes = super.layoutAttributesForInteractivelyMovingItem(at: indexPath, withTargetPosition: position)
+//
+//        attributes.alpha = 0.7
+//        attributes.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        
+        return attributes
     }
     
     override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        debugPrint("增加数据动画")
+//        debugPrint("增加数据动画")
         return nil
     }
     
@@ -85,17 +82,21 @@ class ViewController: UIViewController {
     
     private func loadNewData() {
         
-        
+        var list = [IndexPath]()
         for i in 0 ..< pages {
             if index < allDataSource.count {
                 let item = allDataSource[i]
                 dataSource.append(item)
                 index += 1
+                let index = IndexPath(item: dataSource.count - 1, section: 0)
+                list.append(index)
             } else {
                 break
             }
         }
-        self.collectionView.reloadData()
+        
+        self.collectionView.insertItems(at: list)
+//        self.collectionView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -141,12 +142,13 @@ class ViewController: UIViewController {
     
     @objc
     func buttonAction(_ sender: Any?) {
-        if isSamll {
-            self.collectionView.setCollectionViewLayout(blayout!, animated: true)
-        } else {
-            self.collectionView.setCollectionViewLayout(slayout!, animated: true)
-        }
-        isSamll = !isSamll
+//        if isSamll {
+//            self.collectionView.setCollectionViewLayout(blayout!, animated: true)
+//        } else {
+//            self.collectionView.setCollectionViewLayout(slayout!, animated: true)
+//        }
+//        isSamll = !isSamll
+//        collectionView.editingInteractionConfiguration
     }
     
     
@@ -222,6 +224,15 @@ extension ViewController: UICollectionViewDataSource {
 //        icell.clean()
     }
     
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        debugPrint("交换数据", sourceIndexPath,destinationIndexPath)
+    }
+    
     
 }
 
@@ -229,7 +240,38 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let url = self.dataSource[indexPath.item]
         debugPrint("点击的图片",url,indexPath)
+
+        
+        let destination = IndexPath(item: 0, section: 0)
+        let data1 = self.dataSource[indexPath.item]
+
+        self.dataSource.remove(at: indexPath.item)
+        self.dataSource.insert(data1, at: 0)
+        // 不是交换
+        collectionView.moveItem(at: indexPath, to: destination)
+    
+//
     }
+}
+
+extension ViewController: UICollectionViewDropDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+    }
+    
+
+    
+    
+    
+}
+
+extension ViewController: UICollectionViewDragDelegate {
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return []
+    }
+    
+    
 }
 
 extension ViewController: UICollectionViewDataSourcePrefetching {
@@ -252,14 +294,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 
 
 extension ViewController: UIScrollViewDelegate {
-        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+       
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
             let distance = scrollView.contentSize.height - (targetContentOffset.pointee.y + scrollView.bounds.height)
             debugPrint(distance,loading)
-            if !loading && distance < 200 {
+
+        if !loading && distance < 200 {
                 loading = true
                 self.loadNewData()
                 loading = false
-            } // if
+    
+        } // if
             
-        }
+     
+    }
+    
 }
