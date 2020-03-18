@@ -11,25 +11,8 @@ import ImageDownloader
 
 
 struct ImageLoader {
-    static let sampleImageURLs: [URL] = {
-        let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/Loading"
-        return (1...10).map { URL(string: "\(prefix)/kingfisher-\($0).jpg")! }
-    }()
+    static var sampleImageURLs: [String] = []
 
-    static let highResolutionImageURLs: [URL] = {
-        let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/HighResolution"
-        return (1...20).map { URL(string: "\(prefix)/\($0).jpg")! }
-    }()
-    
-    static let gifImageURLs: [URL] = {
-        let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/GIF"
-        return (1...3).map { URL(string: "\(prefix)/\($0).gif")! }
-    }()
-
-    static let progressiveImageURL: URL = {
-        let prefix = "https://raw.githubusercontent.com/onevcat/Kingfisher-TestImages/master/DemoAppImage/Progressive"
-        return URL(string: "\(prefix)/progressive.jpg")!
-    }()
 }
 
 class ViewController: UIViewController {
@@ -44,7 +27,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urls = ImageLoader.sampleImageURLs // + ImageLoader.highResolutionImageURLs
+        let urls = ImageLoader.sampleImageURLs.map{URL.init(string: $0)!}
+        
         self.dataSource = urls
         
         reloadButton.addTarget(self, action: #selector(self.buttonAction(_:)), for: UIControl.Event.touchUpInside)
@@ -81,13 +65,14 @@ extension ViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as? ImageCollectionViewCell else {
             fatalError()
         }
-        debugPrint("加载任务",indexPath)
+        
         let url = dataSource[indexPath.item]
+        debugPrint("加载任务",indexPath,url)
         ImageDownloader.default.downloadImage(url: url) { (result) in
             switch result {
             case let .success(image):
                 cell.image = image
-                cell.setNeedsDisplay()
+//                cell.setNeedsDisplay()
             case .failure(_):
                 fatalError()
             }
@@ -95,11 +80,67 @@ extension ViewController: UICollectionViewDataSource {
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        // 预加载
+        let url = dataSource[indexPath.row]
+        debugPrint("预加载",indexPath,url)
+        guard let icell = cell as? ImageCollectionViewCell else {
+            fatalError()
+        }
+//        ImageDownloader.default.downloadImage(url: url, callback: nil)
+        ImageDownloader.default.downloadImage(url: url) { (result) in
+            switch result {
+            case let .success(image):
+                icell.image = image
+//                icell.setNeedsDisplay()
+            case .failure(_):
+                fatalError()
+            }
+        }
+        
+        
+        
+//        icell.image
+//        guard let icell = cell as? ImageCollectionViewCell else {
+//            fatalError()
+//        }
+        
+//
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let icell = cell as? ImageCollectionViewCell else {
+            fatalError()
+        }
+        let url = self.dataSource[indexPath.item]
+        // 这里删除回调
+        ImageDownloader.default.cancelDownloadTask(request: url)
+        icell.clean()
+        // 取消下载
+//        icell.clean()
+    }
+    
     
 }
 
 extension ViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let url = self.dataSource[indexPath.item]
+        debugPrint("点击的图片",url,indexPath)
+    }
 }
 
+extension ViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        guard let photos = self.dataSource?.photo else {
+//            fatalError()
+//        }
+//        let urls = indexPaths.compactMap { (index) -> URL in
+//            let url = photos[index.item].getImageURL(size: CGSize(width: self.itemLength, height: self.itemLength))
+//            return url
+//        }
+//        ImagePrefetcher(urls: urls).start()
+        
+    }
+}
 

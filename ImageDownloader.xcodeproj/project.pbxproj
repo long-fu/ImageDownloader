@@ -10,7 +10,6 @@
 		2E1445E6241CCE3500482C55 /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1445E5241CCE3500482C55 /* md5.swift */; };
 		2E1445E8241CD1D500482C55 /* HSIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1445E7241CD1D500482C55 /* HSIError.swift */; };
 		2E1445F0241CD6B100482C55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1445EF241CD6B100482C55 /* AppDelegate.swift */; };
-		2E1445F2241CD6B100482C55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1445F1241CD6B100482C55 /* SceneDelegate.swift */; };
 		2E1445F4241CD6B100482C55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1445F3241CD6B100482C55 /* ViewController.swift */; };
 		2E1445F7241CD6B100482C55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E1445F5241CD6B100482C55 /* Main.storyboard */; };
 		2E1445F9241CD6B400482C55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1445F8241CD6B400482C55 /* Assets.xcassets */; };
@@ -23,6 +22,9 @@
 		2E396165241C0E63002F38E4 /* ImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E396157241C0E62002F38E4 /* ImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E396170241C0E77002F38E4 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39616E241C0E77002F38E4 /* ImageDownloader.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E396171241C0E77002F38E4 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39616F241C0E77002F38E4 /* ImageCache.swift */; };
+		2ED0899C2421FF78008E2C11 /* ImageDownloader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E396154241C0E62002F38E4 /* ImageDownloader.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		2ED0899D2421FF78008E2C11 /* ImageDownloader.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E396154241C0E62002F38E4 /* ImageDownloader.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2ED089A424220B89008E2C11 /* data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2ED089A324220B89008E2C11 /* data.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,14 +49,34 @@
 			remoteGlobalIDString = 2E396153241C0E62002F38E4;
 			remoteInfo = ImageDownloader;
 		};
+		2ED0899E2421FF78008E2C11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E39614B241C0E62002F38E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E396153241C0E62002F38E4;
+			remoteInfo = ImageDownloader;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2ED089A02421FF78008E2C11 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2ED0899D2421FF78008E2C11 /* ImageDownloader.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2E1445E5241CCE3500482C55 /* md5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = md5.swift; sourceTree = "<group>"; };
 		2E1445E7241CD1D500482C55 /* HSIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSIError.swift; sourceTree = "<group>"; };
 		2E1445ED241CD6B100482C55 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E1445EF241CD6B100482C55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2E1445F1241CD6B100482C55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2E1445F3241CD6B100482C55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2E1445F6241CD6B100482C55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E1445F8241CD6B400482C55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,6 +97,8 @@
 		2E396164241C0E63002F38E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E39616E241C0E77002F38E4 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		2E39616F241C0E77002F38E4 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		2ED089A324220B89008E2C11 /* data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.txt; sourceTree = "<group>"; };
+		2ED089A5242211BE008E2C11 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED0899C2421FF78008E2C11 /* ImageDownloader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,11 +146,11 @@
 			isa = PBXGroup;
 			children = (
 				2E1445EF241CD6B100482C55 /* AppDelegate.swift */,
-				2E1445F1241CD6B100482C55 /* SceneDelegate.swift */,
 				2E1445F3241CD6B100482C55 /* ViewController.swift */,
 				2E1446622421501B00482C55 /* ImageCollectionViewCell.swift */,
 				2E1445F5241CD6B100482C55 /* Main.storyboard */,
 				2E1445F8241CD6B400482C55 /* Assets.xcassets */,
+				2ED089A324220B89008E2C11 /* data.txt */,
 				2E1445FA241CD6B400482C55 /* LaunchScreen.storyboard */,
 				2E1445FD241CD6B400482C55 /* Info.plist */,
 			);
@@ -159,6 +184,7 @@
 				2E144605241CD6B400482C55 /* ExampleTests */,
 				2E144610241CD6B400482C55 /* ExampleUITests */,
 				2E396155241C0E62002F38E4 /* Products */,
+				2ED0899B2421FF78008E2C11 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,6 +222,14 @@
 			path = ImageDownloaderTests;
 			sourceTree = "<group>";
 		};
+		2ED0899B2421FF78008E2C11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2ED089A5242211BE008E2C11 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -217,10 +251,12 @@
 				2E1445E9241CD6B100482C55 /* Sources */,
 				2E1445EA241CD6B100482C55 /* Frameworks */,
 				2E1445EB241CD6B100482C55 /* Resources */,
+				2ED089A02421FF78008E2C11 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2ED0899F2421FF78008E2C11 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -355,6 +391,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED089A424220B89008E2C11 /* data.txt in Resources */,
 				2E1445FC241CD6B400482C55 /* LaunchScreen.storyboard in Resources */,
 				2E1445F9241CD6B400482C55 /* Assets.xcassets in Resources */,
 				2E1445F7241CD6B100482C55 /* Main.storyboard in Resources */,
@@ -399,7 +436,6 @@
 				2E1445F4241CD6B100482C55 /* ViewController.swift in Sources */,
 				2E1445F0241CD6B100482C55 /* AppDelegate.swift in Sources */,
 				2E1446632421501B00482C55 /* ImageCollectionViewCell.swift in Sources */,
-				2E1445F2241CD6B100482C55 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +492,11 @@
 			target = 2E396153241C0E62002F38E4 /* ImageDownloader */;
 			targetProxy = 2E39615F241C0E63002F38E4 /* PBXContainerItemProxy */;
 		};
+		2ED0899F2421FF78008E2C11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E396153241C0E62002F38E4 /* ImageDownloader */;
+			targetProxy = 2ED0899E2421FF78008E2C11 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -485,6 +526,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SRW54YFJJ3;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -503,6 +545,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SRW54YFJJ3;
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -649,7 +692,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -706,7 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -738,6 +781,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = onelcat.github.io.ImageDownloader;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -763,6 +807,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = onelcat.github.io.ImageDownloader;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

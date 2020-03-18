@@ -13,12 +13,12 @@ public typealias TaskCallback = (_ block:(Result<UIImage,Error>))->Void
 
 struct DownloadTask {
     
-    var task: URLSessionDownloadTask
+    var task: URLSessionDownloadTask?
     
     var callback: TaskCallback?
     
     func cancel() {
-        task.cancel()
+        task?.cancel()
     }
 }
 
@@ -58,6 +58,20 @@ public class ImageDownloader: NSObject {
         return task
     }
     
+    public func cancelDownloadTask(request url: URL) {
+        tlock.lock()
+        defer {
+            tlock.unlock()
+        }
+        if let task = tasks[url] {
+//            task.cancel()
+//            task.callback = nil
+            // 取消回调
+            tasks[url] = DownloadTask(task: task.task, callback: nil)
+        }
+        
+    }
+    
     // 缓存结果是非常耗内存的这里 可以返回文件url
     private var result = Dictionary<URL,Result<UIImage,Error>>()
     
@@ -70,6 +84,8 @@ public class ImageDownloader: NSObject {
         }
         self.result[key] = result
     }
+    
+
     
     private func removeResult(key: URL) {
         rlock.lock()
@@ -86,6 +102,8 @@ public class ImageDownloader: NSObject {
         }
         return result[key]
     }
+    
+
     
     private lazy var configuration: URLSessionConfiguration = {
         let configuration = URLSessionConfiguration.default
@@ -107,15 +125,20 @@ public class ImageDownloader: NSObject {
     
     private func imageRequestWithURL(_ url: URL) -> URLRequest {
         var request = URLRequest.init(url: url)
+        request.timeoutInterval = 15
         // this will make sure the request always returns the cached image
-        request.cachePolicy = NSURLRequest.CachePolicy.returnCacheDataDontLoad
-        request.httpShouldHandleCookies = false
-        request.httpShouldUsePipelining = true
-        request.addValue("image/*", forHTTPHeaderField: "Accept")
+//        request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData
+//        request.httpShouldHandleCookies = false
+//        request.httpShouldUsePipelining = true
+//        request.addValue("image/*", forHTTPHeaderField: "Accept")
         return request
     }
+    open func download() {
+        debugPrint("测试数据调用")
+    }
     
-    open func downloadImage(request: URLRequest) {
+    
+    private func downloadImage(request: URLRequest) {
         let task = session.downloadTask(with: request)
         task.resume()
     }
@@ -133,15 +156,23 @@ public class ImageDownloader: NSObject {
             return
         }
         
-        if let _ = self.task(key: url) {
-            debugPrint("已经存在任务")
+        // 这一部分表示已经存在过任务
+        if let task = self.task(key: url) {
+            debugPrint("已经存在任务",url,task.callback)
+            if task.callback == nil,callback != nil {
+                let dt = DownloadTask(task: task.task, callback: callback)
+                self.addTask(key: url, task: dt)
+                debugPrint("重新注册回调必报", url,callback)
+                
+            }
             return
         }
+
         
         let request = imageRequestWithURL(url)
         let task = session.downloadTask(with: request)
         
-        debugPrint("下载任务",task,url)
+        debugPrint("下载任务",task,url,callback)
         let downloadTask = DownloadTask(task: task, callback: callback)
         self.addTask(key: url, task: downloadTask)
         task.resume()
@@ -171,12 +202,16 @@ extension ImageDownloader: URLSessionDownloadDelegate {
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         // 任务完成
-        guard let requestUrl = downloadTask.currentRequest?.url,let task = self.task(key: requestUrl) else {
+        guard let requestUrl = downloadTask.originalRequest?.url else {
             fatalError("下载失败")
         }
         
-        debugPrint("任务完成",Thread.current)
+        debugPrint("任务完成",requestUrl,Thread.current)
         do {
+        
+            guard let task = self.task(key: requestUrl) else {
+                fatalError()
+            }
             
             // 单独的文件存储 也就是文件拷贝
             let url = try ImageCache.default.storage(request: requestUrl, path: location)
@@ -190,8 +225,10 @@ extension ImageDownloader: URLSessionDownloadDelegate {
                 let result:Result<UIImage,Error> = .success(image)
                 
                 self.addResult(key: requestUrl, result: result)
-                
-                task.callback?(result)
+                debugPrint("任务成功回调数据",requestUrl,task.callback)
+                DispatchQueue.main.async {
+                    task.callback?(result)
+                }
                 self.removeTask(key: requestUrl)
             }
             
@@ -202,13 +239,15 @@ extension ImageDownloader: URLSessionDownloadDelegate {
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let requestUrl = task.currentRequest?.url else {
+        guard let requestUrl = task.originalRequest?.url,let task = self.task(key: requestUrl) else {
             fatalError("下载失败")
         }
         if let error = error {
             let result:Result<UIImage,Error> = .failure(error)
             self.addResult(key: requestUrl, result: result)
-            debugPrint("任务失败")
+            task.cancel()
+            self.removeTask(key: requestUrl)
+            debugPrint("任务失败",requestUrl)
         } else {
             debugPrint("任务成功",Thread.current)
         }
