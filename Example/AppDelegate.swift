@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urls = str.components(separatedBy: "\n")
         debugPrint("多少数据",urls.count)
         ImageLoader.sampleImageURLs = urls
+        
         return true
     }
 

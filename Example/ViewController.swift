@@ -88,8 +88,8 @@ class ViewController: UIViewController {
                 let item = allDataSource[i]
                 dataSource.append(item)
                 index += 1
-                let index = IndexPath(item: dataSource.count - 1, section: 0)
-                list.append(index)
+                let indexP = IndexPath(item: dataSource.count - 1, section: 0)
+                list.append(indexP)
             } else {
                 break
             }
@@ -101,6 +101,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        debugPrint("测试代码1")
+//        let op = OperationQueue()
+////        op.maxConcurrentOperationCount = 1
+//        let bl1 = HSOperation(op_name: "111", sleep_timer: 2.0)
+////        bl1.waitUntilFinished()
+//        let bl2 = HSOperation(op_name: "222", sleep_timer: 1.0)
+//        let bl3 = HSOperation(op_name: "333", sleep_timer: 0.5)
+//        op.addOperation(bl1)
+//        op.addOperation(bl2)
+//        op.waitUntilAllOperationsAreFinished()
+//        op.addOperation(bl3)
+//        debugPrint("测试代码2")
         
         allDataSource = ImageLoader.sampleImageURLs.map{URL.init(string: $0)!}
 
@@ -121,7 +134,7 @@ class ViewController: UIViewController {
 //        collectionView.setconview
         let contentSize = UIScreen.main.bounds.inset(by: view.safeAreaInsets)
         let layout = AnimationCollectionViewLayout(contentSize: contentSize.size)
-        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.itemSize = CGSize(width: 80, height: 80)
         layout.minimumInteritemSpacing = 2
         layout.minimumLineSpacing = 2
         self.slayout = layout
@@ -149,6 +162,14 @@ class ViewController: UIViewController {
 //        }
 //        isSamll = !isSamll
 //        collectionView.editingInteractionConfiguration
+        let loop = RunLoop()
+        let queue = DispatchQueue(label: "runloop")
+        queue.async {
+            loop.add(Port(), forMode: RunLoop.Mode.common)
+            
+//            let timer = CFRunLoopTimer.self
+//            loop.currentMode
+        }
     }
     
     
@@ -238,17 +259,17 @@ extension ViewController: UICollectionViewDataSource {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let url = self.dataSource[indexPath.item]
-        debugPrint("点击的图片",url,indexPath)
-
-        
-        let destination = IndexPath(item: 0, section: 0)
-        let data1 = self.dataSource[indexPath.item]
-
-        self.dataSource.remove(at: indexPath.item)
-        self.dataSource.insert(data1, at: 0)
-        // 不是交换
-        collectionView.moveItem(at: indexPath, to: destination)
+//        let url = self.dataSource[indexPath.item]
+//        debugPrint("点击的图片",url,indexPath)
+//
+//
+//        let destination = IndexPath(item: 0, section: 0)
+//        let data1 = self.dataSource[indexPath.item]
+//
+//        self.dataSource.remove(at: indexPath.item)
+//        self.dataSource.insert(data1, at: 0)
+//        // 不是交换
+//        collectionView.moveItem(at: indexPath, to: destination)
     
 //
     }

@@ -22,6 +22,7 @@
 		2E396165241C0E63002F38E4 /* ImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E396157241C0E62002F38E4 /* ImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E396170241C0E77002F38E4 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39616E241C0E77002F38E4 /* ImageDownloader.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E396171241C0E77002F38E4 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39616F241C0E77002F38E4 /* ImageCache.swift */; };
+		2E7107032438525D00FB3B0D /* Dispath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7107022438525D00FB3B0D /* Dispath.swift */; };
 		2ED0899C2421FF78008E2C11 /* ImageDownloader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E396154241C0E62002F38E4 /* ImageDownloader.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2ED0899D2421FF78008E2C11 /* ImageDownloader.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E396154241C0E62002F38E4 /* ImageDownloader.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2ED089A424220B89008E2C11 /* data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2ED089A324220B89008E2C11 /* data.txt */; };
@@ -97,6 +98,7 @@
 		2E396164241C0E63002F38E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E39616E241C0E77002F38E4 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		2E39616F241C0E77002F38E4 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		2E7107022438525D00FB3B0D /* Dispath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispath.swift; sourceTree = "<group>"; };
 		2ED089A324220B89008E2C11 /* data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.txt; sourceTree = "<group>"; };
 		2ED089A5242211BE008E2C11 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -153,6 +155,7 @@
 				2ED089A324220B89008E2C11 /* data.txt */,
 				2E1445FA241CD6B400482C55 /* LaunchScreen.storyboard */,
 				2E1445FD241CD6B400482C55 /* Info.plist */,
+				2E7107022438525D00FB3B0D /* Dispath.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E1445F4241CD6B100482C55 /* ViewController.swift in Sources */,
+				2E7107032438525D00FB3B0D /* Dispath.swift in Sources */,
 				2E1445F0241CD6B100482C55 /* AppDelegate.swift in Sources */,
 				2E1446632421501B00482C55 /* ImageCollectionViewCell.swift in Sources */,
 			);
